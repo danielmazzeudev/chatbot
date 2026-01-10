@@ -14,9 +14,19 @@ export function Chatbot() {
     const [answers, setAnswers] = useState<{ q: string; a: string }[]>([]);
 
     useEffect(() => {
+        const savedLanguage = localStorage.getItem("chatbot-lang");
+        if (savedLanguage) {
+            setLanguage(savedLanguage);
+        }
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem("chatbot-lang", language);
+    
         const welcomeMsg = language === "pt-br" 
             ? "Olá! Eu sou a Nebbot, assistente virtual da Neppo. Como posso ajudar você hoje?" 
             : "Hello! I am Nebbot, Neppo's virtual assistant. How can I help you today?";
+        
         if (answers.length <= 1) {
             setAnswers([{ q: "", a: welcomeMsg }]);
         }
