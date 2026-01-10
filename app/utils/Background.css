@@ -1,0 +1,32 @@
+.bubble-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Fica atrás de tudo */
+  overflow: hidden;
+  background: transparent;
+  pointer-events: none; /* Não atrapalha cliques nos botões */
+}
+
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: expand-and-fade 4s ease-out forwards;
+}
+
+@keyframes expand-and-fade {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
