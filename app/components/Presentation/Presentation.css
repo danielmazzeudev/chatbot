@@ -64,4 +64,9 @@ small {
     main > h1 > svg {
         left: 105px;
     }
+    main > img {
+        width: 70px;
+        height: auto;
+        padding: 10px;
+    }
 }
