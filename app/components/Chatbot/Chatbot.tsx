@@ -110,7 +110,7 @@ export function Chatbot() {
             </button>
             <div className={`chatbot ${close ? "close" : ""}`}>
                 <div className="header">
-                    <Image width={40} height={40} src="/logo.png" alt="Logo Neppo" />
+                    <Image width={40} height={40} quality={100} src="/logo.png" alt="Logo Neppo" priority />
                     <div>
                         <button type="button" className={language === "pt-br" ? "active" : ""} onClick={() => setLanguage("pt-br")}>PT</button>
                         <button type="button" className={language === "en" ? "active" : ""} onClick={() => setLanguage("en")}>EN</button>
@@ -133,7 +133,7 @@ export function Chatbot() {
                     ))}
                     {loading && (
                         <div className="answer">
-                            <h2><Image width={20} height={20} src="/logo.png" alt="Logo Neppo" /> Nebbot</h2>
+                            <h2><Image width={20} height={20} quality={100} src="/logo.png" alt="Logo Neppo" priority /> Nebbot</h2>
                             <p>{language === "pt-br" ? "Pensando..." : "Thinking..."}</p>
                         </div>
                     )}
