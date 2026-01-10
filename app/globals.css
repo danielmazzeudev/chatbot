@@ -53,6 +53,34 @@ body { background-color: #eee; }
 
 button { cursor: pointer; }
 
+h1 {
+    font-size: 60px;
+    font-weight: 700;
+    text-align: center;
+    color: var(--theme-a);
+    text-shadow: 1px 1px 1px #fff;
+}
+
+h2 {
+    font-size: 16px;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+p,
+button {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+small,
+span {
+    font-size: 12px;
+    line-height: 1.4;
+    color: #999;
+    text-shadow: 1px 1px 1px #fff;
+}
+
 ::-webkit-scrollbar { width: 7px; }
 ::-webkit-scrollbar-track,
 ::-webkit-scrollbar-thumb { border-radius: 7px; }
