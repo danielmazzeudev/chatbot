@@ -1,0 +1,214 @@
+div.chatbot {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 500px;
+    height: 65vh;
+    border-radius: var(--radius);
+    border: var(--border);
+    background-color: var(--chatbot-bg);
+    box-shadow: var(--shadow);
+}
+
+div.chatbot >
+div.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--padgap);
+    width: 100%;
+    padding: var(--padgap);
+    border-bottom: var(--border);
+}
+
+div.chatbot >
+div.header > 
+img {
+    width: 40px;
+    height: auto;
+    padding: 5px;
+    border-radius: var(--radius);
+    background-color: var(--theme-b);
+}
+
+div.chatbot >
+div.header > 
+div {
+    display: flex;
+    align-items: center;
+    gap: var(--padgap);
+}
+
+div.chatbot >
+div.header > 
+div > 
+button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: var(--padgap);
+    border-radius: var(--radius);
+    border: var(--button-border);
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--button-color);
+    background-color: var(--button-bg);
+}
+
+div.chatbot >
+div.header > 
+div > 
+button:hover {
+    color: var(--button-color-hover);
+    border: var(--button-border-hover);
+    background-color: var(--button-bg-hover);
+}
+
+div.chatbot >
+div.header > 
+div > 
+button.active {
+    color: var(--button-color-active);
+    border: var(--button-border-active);
+    background-color: var(--button-bg-active);
+}
+
+div.chatbot >
+div.header > 
+div > 
+button >
+svg {
+    width: 20px;
+    height: auto;
+}
+
+div.chatbot >
+div.answers {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--padgap);
+    width: 100%;
+    padding: var(--padgap);
+    overflow: auto;
+}
+
+div.chatbot >
+div.answers >
+div.answer {
+    display: flex;
+    flex-direction: column;
+    padding: var(--padgap);
+    border-radius: var(--radius);
+    border: var(--answers-border);
+    background-color: var(--answers-bg);
+}
+
+div.chatbot >
+div.answers >
+div.answer >
+h2 {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+div.chatbot >
+div.answers >
+div.answer >
+h2 >
+svg {
+    width: 16px;
+    height: auto;
+    margin-right: 8px;
+    margin-bottom: 3px;
+    animation: loading 0.5s linear infinite;
+}
+
+@keyframes loading {
+    0% { transform: rotate(0deg) }
+    100% { transform: rotate(360deg) }
+}
+
+div.chatbot >
+div.answers >
+div.answer >
+p {
+    margin-top: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+div.chatbot >
+form.question {
+    display: flex;
+    flex-direction: column;
+    gap: var(--padgap);
+    width: 100%;
+    padding: var(--padgap);
+    border-top: var(--border);
+}
+
+div.chatbot >
+form.question > 
+textarea {
+    width: 100%;
+    height: 100px;
+    resize: none;
+    padding: var(--padgap);
+    border-radius: var(--radius);
+    border: var(--textarea-border);
+    font-size: 14px;
+    line-height: 1.5;
+    background-color: var(--textarea-bg);
+}
+
+div.chatbot >
+form.question > 
+div {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--padgap);
+}
+
+div.chatbot >
+form.question > 
+div > 
+button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: var(--padgap);
+    border-radius: var(--radius);
+    border: var(--button-border-active);
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--button-color-active);
+    background-color: var(--button-bg-active);
+}
+
+div.chatbot >
+form.question > 
+div > 
+button:disabled {
+    cursor: not-allowed;
+    border: var(--button-border);
+    color: var(--button-color);
+    background-color: var(--button-bg);
+}
+
+div.chatbot >
+form.question > 
+div > 
+span {
+    font-size: 12px;
+    color: #666;
+}

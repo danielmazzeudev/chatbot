@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+
+:root {
+    --theme-a: #65cc65;
+    --theme-b: #252c3b;
+
+    --radius: 8px;
+    --padgap: 12px;
+    --border: 1px solid #ddd;
+    --shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+    --button-color: #999;
+    --button-color-hover: #000;
+    --button-color-active: #fff;
+    --button-bg: #eee;
+    --button-bg-hover: #ddd;
+    --button-bg-active: var(--theme-b);
+    --button-border: 1px solid #ddd;
+    --button-border-hover: 1px solid #ccc;
+    --button-border-active: 1px solid var(--theme-b);
+
+    --textarea-border: 1px solid #ddd;
+    --textarea-bg: #f9f9f9;
+
+    --chatbot-bg: #fff;
+    --answers-bg: #f9f9f9;
+    --answers-border: 1px solid #eee;
+}
+
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    text-decoration: none;
+    font-family: "Source Sans 3", sans-serif;
+    transition: all 0.3s ease-in-out;
+    text-rendering: optimizeLegibility;
+    font-optical-sizing: auto;
+    image-rendering: optimizeQuality;
+    -webkit-tap-highlight-color: transparent !important;
+}
+
+html,
+body { overflow-x: hidden !important; }
+
+html { scroll-behavior: smooth; }
+
+body { background-color: #f0f0f0; }
+
+button { cursor: pointer; }
+
+::-webkit-scrollbar { width: 7px; }
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-thumb { border-radius: 7px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--theme-b); }
+::-webkit-scrollbar-thumb:hover {  background: var(--theme-a); }
+
+textarea::-webkit-scrollbar { width: 7px; }
+textarea::-webkit-scrollbar-track,
+textarea::-webkit-scrollbar-thumb { border-radius: 7px; }
+textarea::-webkit-scrollbar-track { background: transparent; }
+textarea::-webkit-scrollbar-thumb { background: var(--theme-b); }
+textarea::-webkit-scrollbar-thumb:hover { background: var(--theme-a); }
