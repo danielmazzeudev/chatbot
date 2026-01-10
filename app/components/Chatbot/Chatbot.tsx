@@ -121,7 +121,7 @@ export function Chatbot() {
                 <div className="answers">
                     {answers.map((item, index) => (
                         <div key={index} className="answer">
-                            <h2>Nepbot</h2>
+                            <h2><BotMessageSquare />Nepbot</h2>
                             <p>
                                 {index === answers.length - 1 && index !== 0 ? (
                                     <Typewriter text={item.a} />

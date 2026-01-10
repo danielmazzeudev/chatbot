@@ -159,9 +159,20 @@ div.answer >
 h2 {
     display: flex;
     align-items: center;
+    gap: var(--padgap);
     font-size: 16px;
     font-weight: 900;
     text-transform: uppercase;
+}
+
+div.chatbot >
+div.answers >
+div.answer >
+h2 > 
+svg {
+    width: 20px;
+    height: auto;
+    color: var(--theme-a);
 }
 
 div.chatbot >
