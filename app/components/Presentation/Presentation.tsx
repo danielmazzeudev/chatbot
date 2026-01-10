@@ -9,12 +9,12 @@ export function Presentation() {
             <Image width={100} height={100} src="/logo.png" alt="Logo Neppo" />
             <h1>NEPBOT<BotMessageSquare /></h1>
             <p>
-                O Nepbot é um assistente inteligente especializado no ecossistema NEPPO. 
-                Desenvolvido para otimizar processos e guiar clientes com máxima agilidade e precisão.
+                Nepbot is an intelligent assistant specialized in the NEPPO ecosystem.
+                Developed to improve processes and guide clients with maximum agility and solutions.
             </p>
             <small>
-                Elaborado e desenvolvido por Daniel Mazzeu.<br />
-                &copy; 2026 Todos os direitos reservados.
+                Designed and developed by Daniel Mazzeu.<br />
+                &copy; 2026 All rights reserved.
             </small>
         </main>
     );
