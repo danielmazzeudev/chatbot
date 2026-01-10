@@ -1,12 +1,18 @@
+"use client";
+
 import { useState, useEffect } from "react";
 
-export function Typewriter({ text, speed = 15 }: { text: string; speed?: number }) {
+export function Typewriter({ text = "", speed = 15 }: { text: string; speed?: number }) {
     const [displayedText, setDisplayedText] = useState("");
 
     useEffect(() => {
-        let i = 0;
         setDisplayedText("");
-        
+
+        if (!text) {
+            return;
+        }
+
+        let i = 0;
         const timer = setInterval(() => {
             if (i < text.length) {
                 setDisplayedText((prev) => prev + text.charAt(i));
