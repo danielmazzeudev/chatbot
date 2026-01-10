@@ -133,7 +133,7 @@ export function Chatbot() {
                     ))}
                     {loading && (
                         <div className="answer">
-                            <h2><Loader2 className="spinner" /> Nebbot</h2>
+                            <h2><Image width={20} height={20} src="/logo.png" alt="Logo Neppo" /> Nebbot</h2>
                             <p>{language === "pt-br" ? "Pensando..." : "Thinking..."}</p>
                         </div>
                     )}

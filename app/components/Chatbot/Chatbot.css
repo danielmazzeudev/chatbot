@@ -168,13 +168,13 @@ div.chatbot >
 div.answers >
 div.answer >
 h2 >
-svg {
+img {
     width: 16px;
     height: auto;
     margin-right: 8px;
     margin-bottom: 3px;
     color: var(--theme-a);
-    animation: loading 0.5s linear infinite;
+    animation: loading 1s linear infinite;
 }
 
 @keyframes loading {
@@ -265,4 +265,8 @@ span {
         right: 15px;
         max-width: calc(100% - 30px);
     }
+}
+
+@media screen and (max-width: 768px) {
+    
 }
