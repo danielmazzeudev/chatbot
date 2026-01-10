@@ -11,6 +11,17 @@ button.chatbot {
     border: var(--button-border-active);
     color: var(--button-color-active);
     background-color: var(--button-bg-active);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
+
+button.chatbot.hidden {
+    display: flex;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.5);
 }
 
 button.chatbot:hover > 
