@@ -11,7 +11,7 @@ const BackgroundBubbles = () => {
 
         const createBubble = () => ({
             id: Math.random(),
-            size: Math.random() * 150 + 100,
+            size: Math.random() * 5 + 100,
             left: Math.random() * 100,
             top: Math.random() * 100,
             color: colors[Math.floor(Math.random() * colors.length)] 
