@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { BotMessageSquare, X, Loader2 } from "lucide-react";
 import { Typewriter } from "@/app/utils/Typewriter";
 
@@ -13,9 +13,10 @@ export function Chatbot() {
     const [language, setLanguage] = useState("pt-br");
     const [question, setQuestion] = useState("");
     const [answers, setAnswers] = useState<{ q: string; a: string }[]>([]);
+    const scrollRef = useRef<HTMLDivElement>(null);
 
     const instruction = `Você é a Nebbot, a assistente virtual oficial da Neppo. Sua missão é fornecer informações precisas, úteis e profissionais sobre a empresa.
-
+    
 ### CONTEXTO INSTITUCIONAL
 - Empresa: Neppo (Especialista em Omnichannel e comunicação integrada).
 - Ecossistema: Faz parte do Grupo Sankhya (desde 2021), integrando inteligência de comunicação ao maior ecossistema de ERP do Brasil.
@@ -41,6 +42,7 @@ export function Chatbot() {
 - Carreiras: Interessados em trabalhar na empresa são chamados de "Neppers". Devem consultar as vagas abertas no site oficial.
 
 ### DIRETRIZES DE COMPORTAMENTO
+- Numca coloque ** ou *.
 - Tom de Voz: Profissional, amigável, tecnológico e proativo.
 - Idioma: Responda sempre no idioma solicitado (${language}).
 - Restrição: Se não souber uma informação específica sobre preços personalizados ou contratos técnicos, oriente o usuário a entrar em contato com o time comercial pelo e-mail ou telefone informados.`;
@@ -63,6 +65,16 @@ export function Chatbot() {
             setAnswers([{ q: "", a: welcomeMsg }]);
         }
     }, [language]);
+
+    const scrollToBottom = () => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+        }
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [answers, loading]);
 
     const handleQuestion = async (e: React.FormEvent) => {
         e.preventDefault();
