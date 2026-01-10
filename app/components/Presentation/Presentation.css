@@ -23,14 +23,14 @@ main >
 h1 {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 5px;
     flex-wrap: nowrap;
 }
 
 main > 
 h1 > 
 svg {
-    width: 40px;
+    width: 55px;
     height: auto;
     color: var(--theme-a);
 }
