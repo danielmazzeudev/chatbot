@@ -46,7 +46,7 @@ export function Chatbot() {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    instruction: `Voce é uma agente chamada Nebbot, que responderá todas as questões referentes a empresa Neppot. Responda em ${language}.`,
+                    instruction: `Voce é uma agente chamada Nebbot, que responderá todas as questões referentes a empresa Neppo. Responda em ${language}.`,
                     question: currentQuestion
                 }),
             });
@@ -81,7 +81,7 @@ export function Chatbot() {
                 <div className="answers">
                     {answers.map((item, index) => (
                         <div key={index} className="answer">
-                            <h2>Nebbot</h2>
+                            <h2>Nepbot</h2>
                             <p>
                                 {index === answers.length - 1 && index !== 0 ? (
                                     <Typewriter text={item.a} />
