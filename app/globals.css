@@ -55,7 +55,8 @@ button { cursor: pointer; }
 
 h1 {
     font-size: 60px;
-    font-weight: 700;
+    font-weight: 900;
+    letter-spacing: -1px;
     text-align: center;
     color: var(--theme-b);
     text-shadow: 1px 1px 1px #fff;
