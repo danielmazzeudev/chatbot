@@ -154,7 +154,7 @@ export function Chatbot() {
                     <div>
                         <button type="submit" disabled={loading || question.length === 0}>
                             {loading 
-                                ? (language === "pt-br" ? "Enviando..." : "Sending...") 
+                                ? (language === "pt-br" ? "Pensando..." : "Thinking...") 
                                 : (language === "pt-br" ? "Enviar" : "Send")
                             }
                         </button>
