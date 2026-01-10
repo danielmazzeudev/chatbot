@@ -13,8 +13,6 @@ export function Chatbot() {
     const [language, setLanguage] = useState("pt-br");
     const [question, setQuestion] = useState("");
     const [answers, setAnswers] = useState<{ q: string; a: string }[]>([]);
-    const [lastSentTime, setLastSentTime] = useState<number>(0);
-    const [timeLeft, setTimeLeft] = useState<number>(0);
     const scrollRef = useRef<HTMLDivElement>(null);
 
     const instruction = `Você é a Nebbot, a assistente virtual oficial da Neppo. Sua missão é fornecer informações precisas, úteis e profissionais sobre a empresa.
@@ -57,13 +55,6 @@ export function Chatbot() {
     }, []);
 
     useEffect(() => {
-        if (timeLeft > 0) {
-            const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
-            return () => clearTimeout(timer);
-        }
-    }, [timeLeft]);
-
-    useEffect(() => {
         localStorage.setItem("chatbot-lang", language);
     
         const welcomeMsg = language === "pt-br" 
@@ -84,23 +75,12 @@ export function Chatbot() {
     const handleQuestion = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const now = Date.now();
-        const cooldown = 15000;
-        const timePassed = now - lastSentTime;
-
-        if (timePassed < cooldown) {
-            const remaining = Math.ceil((cooldown - timePassed) / 1000);
-            setTimeLeft(remaining);
-            return;
-        }
-
         if (!question.trim() || loading) return;
 
         const currentQuestion = question;
         setQuestion(""); 
         setLoading(true);
-        setLastSentTime(Date.now());
-        setTimeLeft(0);
+        scrollToBottom();
 
         try {
             const response = await fetch("https://gptagent.danielmazzeu.com.br/", {
@@ -174,12 +154,10 @@ export function Chatbot() {
                         }}
                     />
                     <div>
-                        <button type="submit" disabled={loading || question.length === 0 || timeLeft > 0}>
+                        <button type="submit" disabled={loading || question.length === 0}>
                             {loading 
                                 ? (language === "pt-br" ? "Pensando..." : "Thinking...") 
-                                : timeLeft > 0 
-                                    ? (language === "pt-br" ? `Aguarde ${timeLeft}s` : `Wait ${timeLeft}s`)
-                                    : (language === "pt-br" ? "Enviar" : "Send")
+                                : (language === "pt-br" ? "Enviar" : "Send")
                             }
                         </button>
                         <span>{question.length} / 1000</span>
