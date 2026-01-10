@@ -58,7 +58,6 @@ h1 {
     letter-spacing: -1px;
     text-align: center;
     color: var(--theme-b);
-    text-shadow: 1px 1px 1px #fff;
 }
 
 h2 {
@@ -73,14 +72,11 @@ button {
     line-height: 1.5;
 }
 
-p { text-shadow: 1px 1px 1px #fff; }
-
 small,
 span {
     font-size: 12px;
     line-height: 1.4;
     color: #555;
-    text-shadow: 1px 1px 1px #fff;
 }
 
 button > svg {
