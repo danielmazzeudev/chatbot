@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { BotMessageSquare, X, Loader2 } from "lucide-react";
 import { Typewriter } from "@/app/utils/Typewriter";
@@ -70,7 +71,7 @@ export function Chatbot() {
             </button>
             <div className={`chatbot ${close ? "close" : ""}`}>
                 <div className="header">
-                    <img src="/logo.png" alt="Logo Neppo" />
+                    <Image width={40} height={40} src="/logo.png" alt="Logo Neppo" />
                     <div>
                         <button type="button" className={language === "pt-br" ? "active" : ""} onClick={() => setLanguage("pt-br")}>PT</button>
                         <button type="button" className={language === "en" ? "active" : ""} onClick={() => setLanguage("en")}>EN</button>

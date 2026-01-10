@@ -12,6 +12,14 @@ main {
 }
 
 main > 
+img {
+    margin-bottom: 40px;
+    padding: 15px;
+    border-radius: 25px;
+    background-color: var(--theme-b);
+}
+
+main > 
 h1 {
     position: relative;
     font-size: 60px;
@@ -29,7 +37,7 @@ svg {
     position: absolute;
     top: -30px;
     left: 160px;
-    color: #999;
+    color: var(--theme-b);
     filter: drop-shadow(1px 1px 1px #fff);
 }
 
