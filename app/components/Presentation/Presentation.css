@@ -46,6 +46,12 @@ small {
 }
 
 @media screen and (max-width: 768px) {
+    main > 
+    h1 > 
+    svg {
+        width: 40px;
+        height: auto;
+    }
     main > img {
         width: 70px;
         height: auto;
