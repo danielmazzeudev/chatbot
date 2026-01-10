@@ -7,7 +7,7 @@ const BackgroundBubbles = () => {
     const [bubbles, setBubbles] = useState<Array<{id: number; size: number; left: number; top: number; color: string}>>([]);
 
     useEffect(() => {
-        const colors = ["#252c3bcc", "#65cc65cc"];
+        const colors = ["#252c3b66", "#65cc6566"];
 
         const createBubble = () => ({
             id: Math.random(),
