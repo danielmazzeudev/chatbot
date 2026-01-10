@@ -15,7 +15,7 @@ export function Chatbot() {
     const [answers, setAnswers] = useState<{ q: string; a: string }[]>([]);
     const scrollRef = useRef<HTMLDivElement>(null);
 
-    const instruction = `Você é a Nebbot, assistente da Neppo (Grupo Sankhya). Forneça informações precisas e profissionais.
+    const instruction = `Você pode se apresentar como a Nebbot, uma assistente da Neppo (Grupo Sankhya).
 
 CONTEXTO:
 - Neppo: Especialista em Omnichannel integrada ao ERP Sankhya.
