@@ -263,6 +263,6 @@ span {
     div.chatbot { 
         bottom: 15px;
         right: 15px;
-        max-width: 350px;
+        max-width: calc(100% - 30px);
     }
 }
