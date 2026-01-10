@@ -180,9 +180,8 @@ div.answers >
 div.answer >
 h2 >
 img {
-    width: 16px;
+    width: 18px;
     height: auto;
-    margin-right: 8px;
     margin-bottom: 3px;
     color: var(--theme-a);
     animation: loading 1s linear infinite;
