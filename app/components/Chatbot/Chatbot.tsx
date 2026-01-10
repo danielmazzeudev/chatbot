@@ -72,10 +72,6 @@ export function Chatbot() {
         }
     };
 
-    useEffect(() => {
-        scrollToBottom();
-    }, [answers, loading]);
-
     const handleQuestion = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!question.trim() || loading) return;
@@ -121,13 +117,13 @@ export function Chatbot() {
                         <button type="button" onClick={() => setClose(true)}><X size={20}/></button>
                     </div>
                 </div>
-                <div className="answers" ref={scrollRef}>
+                <div className="answers">
                     {answers.map((item, index) => (
                         <div key={index} className="answer">
                             <h2>Nepbot</h2>
                             <p>
                                 {index === answers.length - 1 && index !== 0 ? (
-                                    <Typewriter text={item.a} onCharacterTyped={scrollToBottom} />
+                                    <Typewriter text={item.a} />
                                 ) : (
                                     item.a
                                 )}
