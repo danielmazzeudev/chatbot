@@ -14,6 +14,13 @@ export function Chatbot() {
     const [question, setQuestion] = useState("");
     const [answers, setAnswers] = useState<{ q: string; a: string }[]>([]);
 
+    const instruction = `Você é a Nebbot, assistente da Neppo.
+        A Neppo é uma plataforma Omnichannel do ecossistema Sankhya que integra WhatsApp, redes sociais, e-mail e telefonia (Neppo Voz).
+        Oferecemos chatbots 24/7, automação de cobrança e vendas digitais.
+        Fundada em 2009, somos especialistas em transformar a comunicação empresarial.
+        Contatos: (34) 3256-3200 | comercial@neppo.com.br.
+        Responda de forma direta e profissional em ${language}.`;
+
     useEffect(() => {
         const savedLanguage = localStorage.getItem("chatbot-lang");
         if (savedLanguage) {
@@ -46,7 +53,7 @@ export function Chatbot() {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    instruction: `Voce é uma agente chamada Nebbot, que responderá todas as questões referentes a empresa Neppo. Responda em ${language}.`,
+                    instruction: instruction,
                     question: currentQuestion
                 }),
             });
