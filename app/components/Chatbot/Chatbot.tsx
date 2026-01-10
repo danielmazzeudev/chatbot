@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
-import { BotMessageSquare, X, Loader2 } from "lucide-react";
+import { BotMessageSquare, BrushCleaning, X, Loader2 } from "lucide-react";
 import { Typewriter } from "@/app/utils/Typewriter";
 
 import "./Chatbot.css";
@@ -106,7 +106,7 @@ export function Chatbot() {
     return (
         <>
             <button className={`chatbot ${!close ? "hidden" : ""}`} type="button" onClick={() => setClose(false)}>
-                <BotMessageSquare size={30} />
+                <BotMessageSquare />
             </button>
             <div className={`chatbot ${close ? "close" : ""}`}>
                 <div className="header">
@@ -114,7 +114,8 @@ export function Chatbot() {
                     <div>
                         <button type="button" className={language === "pt-br" ? "active" : ""} onClick={() => setLanguage("pt-br")}>PT</button>
                         <button type="button" className={language === "en" ? "active" : ""} onClick={() => setLanguage("en")}>EN</button>
-                        <button type="button" onClick={() => setClose(true)}><X size={20}/></button>
+                        <button type="button" onClick={() => setAnswers(prev => prev.slice(0, 1))}><BrushCleaning /></button>
+                        <button type="button" onClick={() => setClose(true)}><X /></button>
                     </div>
                 </div>
                 <div className="answers">
