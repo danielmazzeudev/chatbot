@@ -173,6 +173,7 @@ svg {
     height: auto;
     margin-right: 8px;
     margin-bottom: 3px;
+    color: var(--theme-a);
     animation: loading 0.5s linear infinite;
 }
 
