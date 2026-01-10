@@ -44,7 +44,7 @@ export function Chatbot() {
 ### DIRETRIZES DE COMPORTAMENTO
 - Numca coloque ** ou *.
 - Tom de Voz: Profissional, amigável, tecnológico e proativo.
-- Idioma: Responda sempre no idioma solicitado (${language}).
+- Idioma: Responda unica e exclusivamente no idioma (${language}).
 - Restrição: Se não souber uma informação específica sobre preços personalizados ou contratos técnicos, oriente o usuário a entrar em contato com o time comercial pelo e-mail ou telefone informados.`;
 
     useEffect(() => {
@@ -123,7 +123,7 @@ export function Chatbot() {
                 <div className="answers">
                     {answers.map((item, index) => (
                         <div key={index} className="answer">
-                            <h2><BotMessageSquare />Nepbot</h2>
+                            <h2>Nepbot <BotMessageSquare /></h2>
                             <p>
                                 {index === answers.length - 1 && index !== 0 ? (
                                     <Typewriter text={item.a} />
