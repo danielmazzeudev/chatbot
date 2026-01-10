@@ -121,7 +121,7 @@ export function Chatbot() {
                         <button type="button" onClick={() => setClose(true)}><X size={20}/></button>
                     </div>
                 </div>
-                <div className="answers">
+                <div className="answers" ref={scrollRef}>
                     {answers.map((item, index) => (
                         <div key={index} className="answer">
                             <h2>Nepbot</h2>
