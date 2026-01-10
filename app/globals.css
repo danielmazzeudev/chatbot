@@ -81,6 +81,11 @@ span {
     text-shadow: 1px 1px 1px #fff;
 }
 
+button > svg {
+    width: 20px;
+    height: auto;
+}
+
 ::-webkit-scrollbar { width: 7px; }
 ::-webkit-scrollbar-track,
 ::-webkit-scrollbar-thumb { border-radius: 7px; }
@@ -94,3 +99,20 @@ textarea::-webkit-scrollbar-thumb { border-radius: 7px; }
 textarea::-webkit-scrollbar-track { background: transparent; }
 textarea::-webkit-scrollbar-thumb { background: var(--theme-b); }
 textarea::-webkit-scrollbar-thumb:hover { background: var(--theme-a); }
+
+@media screen and (max-width: 768px) {
+    h1 { font-size: 40px; }
+
+    h2 { font-size: 14px; }
+
+    p,
+    button { font-size: 12px; }
+
+    small,
+    span { font-size: 10px; }
+
+    button > svg { 
+        width: 16px; 
+        height: auto; 
+    }
+}

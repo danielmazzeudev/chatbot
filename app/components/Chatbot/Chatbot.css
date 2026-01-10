@@ -98,9 +98,6 @@ button {
     padding: var(--padgap);
     border-radius: var(--radius);
     border: var(--button-border);
-    font-size: 14px;
-    font-weight: 400;
-    color: var(--button-color);
     background-color: var(--button-bg);
 }
 
@@ -120,15 +117,6 @@ button.active {
     color: var(--button-color-active);
     border: var(--button-border-active);
     background-color: var(--button-bg-active);
-}
-
-div.chatbot >
-div.header > 
-div > 
-button >
-svg {
-    width: 20px;
-    height: auto;
 }
 
 div.chatbot >
