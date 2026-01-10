@@ -71,8 +71,9 @@ p,
 button {
     font-size: 14px;
     line-height: 1.5;
-    text-shadow: 1px 1px 1px #fff;
 }
+
+p { text-shadow: 1px 1px 1px #fff; }
 
 small,
 span {
