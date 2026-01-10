@@ -1,6 +1,14 @@
 import { useState, useEffect } from "react";
 
-export function Typewriter({ text, speed = 15 }: { text: string; speed?: number }) {
+export function Typewriter({ 
+    text, 
+    speed = 15, 
+    onCharacterTyped
+}: { 
+    text: string; 
+    speed?: number; 
+    onCharacterTyped?: () => void; 
+}) {
     const [displayedText, setDisplayedText] = useState("");
 
     useEffect(() => {
@@ -9,7 +17,11 @@ export function Typewriter({ text, speed = 15 }: { text: string; speed?: number 
         
         const timer = setInterval(() => {
             if (i < text.length) {
-                setDisplayedText((prev) => prev + text.charAt(i));
+                setDisplayedText((prev) => {
+                    const nextText = prev + text.charAt(i);
+                    if (onCharacterTyped) onCharacterTyped();
+                    return nextText;
+                });
                 i++;
             } else {
                 clearInterval(timer);
@@ -17,7 +29,7 @@ export function Typewriter({ text, speed = 15 }: { text: string; speed?: number 
         }, speed);
 
         return () => clearInterval(timer);
-    }, [text, speed]);
+    }, [text, speed, onCharacterTyped]);
 
     return <>{displayedText}</>;
 }
