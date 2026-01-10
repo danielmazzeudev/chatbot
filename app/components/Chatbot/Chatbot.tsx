@@ -58,8 +58,8 @@ export function Chatbot() {
         localStorage.setItem("chatbot-lang", language);
     
         const welcomeMsg = language === "pt-br" 
-            ? "Olá! Eu sou a Nebbot, assistente virtual da Neppo. Como posso ajudar você hoje?" 
-            : "Hello! I am Nebbot, Neppo's virtual assistant. How can I help you today?";
+            ? "Olá! Eu sou a Nepbot, assistente virtual da Neppo. Como posso ajudar você hoje?" 
+            : "Hello! I am Nepbot, Neppo's virtual assistant. How can I help you today?";
         
         if (answers.length <= 1) {
             setAnswers([{ q: "", a: welcomeMsg }]);
