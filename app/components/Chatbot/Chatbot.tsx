@@ -4,19 +4,25 @@ import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { BotMessageSquare, BrushCleaning, X, Loader2 } from "lucide-react";
 import { Typewriter } from "@/app/utils/Typewriter";
-
 import "./Chatbot.css";
+
+type Answer = {
+    id: string;
+    q: string;
+    a: string;
+};
 
 export function Chatbot() {
     const [close, setClose] = useState(true);
     const [loading, setLoading] = useState(false);
     const [language, setLanguage] = useState("pt-br");
     const [question, setQuestion] = useState("");
-    const [answers, setAnswers] = useState<{ q: string; a: string }[]>([]);
+    const [answers, setAnswers] = useState<Answer[]>([]);
     const scrollRef = useRef<HTMLDivElement>(null);
+    const initializedRef = useRef(false);
+    const formRef = useRef<HTMLFormElement>(null);
 
     const instruction = `Você pode se apresentar como a Nebbot sempre que alguém perguntar sobre voce, uma assistente da Neppo (Grupo Sankhya).
-
 CONTEXTO:
 - Neppo: Especialista em Omnichannel integrada ao ERP Sankhya.
 - História: Fundada em 2009; parte da Sankhya desde 2021; sediada em Uberlândia-MG.
@@ -37,20 +43,27 @@ DIRETRIZES:
 
     useEffect(() => {
         const savedLanguage = localStorage.getItem("chatbot-lang");
-        if (savedLanguage) {
-            setLanguage(savedLanguage);
-        }
+        if (savedLanguage) setLanguage(savedLanguage);
     }, []);
 
     useEffect(() => {
         localStorage.setItem("chatbot-lang", language);
-    
-        const welcomeMsg = language === "pt-br" 
-            ? "Olá! Eu sou a Nepbot, assistente virtual da Neppo. Como posso ajudar você hoje?" 
-            : "Hello! I am Nepbot, Neppo's virtual assistant. How can I help you today?";
-        
-        if (answers.length <= 1) {
-            setAnswers([{ q: "", a: welcomeMsg }]);
+
+        if (!initializedRef.current) {
+            const welcomeMsg =
+                language === "pt-br"
+                    ? "Olá! Eu sou a Nebbot, assistente virtual da Neppo. Como posso ajudar você hoje?"
+                    : "Hello! I am Nebbot, Neppo's virtual assistant. How can I help you today?";
+
+            setAnswers([
+                {
+                    id: crypto.randomUUID(),
+                    q: "",
+                    a: welcomeMsg,
+                },
+            ]);
+
+            initializedRef.current = true;
         }
     }, [language]);
 
@@ -60,13 +73,10 @@ DIRETRIZES:
         }
     }, [answers, loading]);
 
-    const handleQuestion = async (e: React.FormEvent) => {
-        e.preventDefault();
-
+    const handleSubmit = async () => {
         if (!question.trim() || loading) return;
 
         const currentQuestion = question.trim();
-        setQuestion(""); 
         setLoading(true);
 
         try {
@@ -74,84 +84,163 @@ DIRETRIZES:
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    instruction: instruction,
-                    question: currentQuestion
+                    instruction,
+                    question: currentQuestion,
                 }),
             });
-            
+
             if (!response.ok) throw new Error("API_ERROR");
 
             const data = await response.json();
-            const finalAnswer = data.response || (language === "pt-br" ? "Desculpe, não consegui processar sua resposta." : "Sorry, I couldn't process your response.");
-            
-            setAnswers((prev) => [...prev, { q: currentQuestion, a: String(finalAnswer) }]);
-        } catch (error) {
-            console.error("Chatbot Error:", error);
-            const errorMsg = language === "pt-br" 
-                ? "Tive um problema técnico. Pode tentar novamente em instantes?" 
-                : "I had a technical problem. Can you try again in a moment?";
-            setAnswers((prev) => [...prev, { q: currentQuestion, a: errorMsg }]);
+            const finalAnswer =
+                data.response ||
+                (language === "pt-br"
+                    ? "Desculpe, não consegui processar sua resposta."
+                    : "Sorry, I couldn't process your response.");
+
+            setAnswers((prev) => [
+                ...prev,
+                {
+                    id: crypto.randomUUID(),
+                    q: currentQuestion,
+                    a: String(finalAnswer),
+                },
+            ]);
+
+            setQuestion("");
+        } catch {
+            const errorMsg =
+                language === "pt-br"
+                    ? "Tive um problema técnico. Pode tentar novamente em instantes?"
+                    : "I had a technical problem. Can you try again in a moment?";
+
+            setAnswers((prev) => [
+                ...prev,
+                {
+                    id: crypto.randomUUID(),
+                    q: currentQuestion,
+                    a: errorMsg,
+                },
+            ]);
         } finally {
             setLoading(false);
         }
-    }
+    };
 
     return (
         <>
-            <button className={`chatbot ${!close ? "hidden" : ""}`} type="button" onClick={() => setClose(false)}>
+            <button
+                className={`chatbot ${!close ? "hidden" : ""}`}
+                type="button"
+                onClick={() => setClose(false)}
+            >
                 <BotMessageSquare />
             </button>
+
             <div className={`chatbot ${close ? "close" : ""}`}>
                 <div className="header">
-                    <Image width={40} height={40} quality={100} src="/logo.png" alt="Logo Neppo" priority />
+                    <Image
+                        width={40}
+                        height={40}
+                        quality={100}
+                        src="/logo.png"
+                        alt="Logo Neppo"
+                        priority
+                    />
                     <div>
-                        <button type="button" className={language === "pt-br" ? "active" : ""} onClick={() => setLanguage("pt-br")}>PT</button>
-                        <button type="button" className={language === "en" ? "active" : ""} onClick={() => setLanguage("en")}>EN</button>
-                        <button type="button" onClick={() => setAnswers(prev => prev.slice(0, 1))}><BrushCleaning /></button>
-                        <button type="button" onClick={() => setClose(true)}><X /></button>
+                        <button
+                            type="button"
+                            className={language === "pt-br" ? "active" : ""}
+                            onClick={() => setLanguage("pt-br")}
+                        >
+                            PT
+                        </button>
+                        <button
+                            type="button"
+                            className={language === "en" ? "active" : ""}
+                            onClick={() => setLanguage("en")}
+                        >
+                            EN
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setAnswers((prev) => prev.slice(0, 1))}
+                        >
+                            <BrushCleaning />
+                        </button>
+                        <button type="button" onClick={() => setClose(true)}>
+                            <X />
+                        </button>
                     </div>
                 </div>
 
                 <div className="answers" ref={scrollRef}>
                     {answers.map((item, index) => (
-                        <div key={`${index}-${item.q.substring(0,5)}`} className="answer">
-                            <h2><BotMessageSquare /> Nepbot</h2>
+                        <div key={item.id} className="answer">
+                            <h2>
+                                <BotMessageSquare /> Nebbot
+                            </h2>
                             <p>
                                 {index === answers.length - 1 && index !== 0 ? (
-                                    <Typewriter text={item.a || ""} />
+                                    <Typewriter text={item.a} />
                                 ) : (
                                     item.a
                                 )}
                             </p>
                         </div>
                     ))}
+
                     {loading && (
                         <div className="answer">
-                            <h2><Image width={20} height={20} quality={100} src="/logo.png" alt="Logo Neppo" priority /> Nebbot</h2>
+                            <h2>
+                                <Image
+                                    width={20}
+                                    height={20}
+                                    quality={100}
+                                    src="/logo.png"
+                                    alt="Logo Neppo"
+                                    priority
+                                />{" "}
+                                Nebbot
+                            </h2>
                             <p>{language === "pt-br" ? "Pensando..." : "Thinking..."}</p>
                         </div>
                     )}
                 </div>
 
-                <form className="question" onSubmit={handleQuestion}>
-                    <textarea 
-                        placeholder={language === "pt-br" ? "Escreva algo aqui..." : "Type something here..."} 
-                        maxLength={1000} 
-                        value={question} 
+                <form
+                    ref={formRef}
+                    className="question"
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        handleSubmit();
+                    }}
+                >
+                    <textarea
+                        placeholder={
+                            language === "pt-br"
+                                ? "Escreva algo aqui..."
+                                : "Type something here..."
+                        }
+                        maxLength={1000}
+                        value={question}
                         onChange={(e) => setQuestion(e.target.value)}
                         onKeyDown={(e) => {
                             if (e.key === "Enter" && !e.shiftKey) {
                                 e.preventDefault();
-                                if (!loading && question.trim()) handleQuestion(e);
+                                formRef.current?.requestSubmit();
                             }
                         }}
                     />
                     <div>
                         <button type="submit" disabled={loading || !question.trim()}>
-                            {loading 
-                                ? <Loader2 className="animate-spin" size={20} />
-                                : (language === "pt-br" ? "Enviar" : "Send")
-                            }
+                            {loading ? (
+                                <Loader2 className="animate-spin" size={20} />
+                            ) : language === "pt-br" ? (
+                                "Enviar"
+                            ) : (
+                                "Send"
+                            )}
                         </button>
                         <span>{question.length} / 1000</span>
                     </div>

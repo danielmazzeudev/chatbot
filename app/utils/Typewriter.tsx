@@ -2,31 +2,34 @@
 
 import { useState, useEffect } from "react";
 
-export function Typewriter({ text = "", speed = 15 }: { text: string; speed?: number }) {
+type TypewriterProps = {
+    text: string;
+    speed?: number;
+};
+
+export function Typewriter({ text, speed = 15 }: TypewriterProps) {
     const [displayedText, setDisplayedText] = useState("");
 
     useEffect(() => {
-        setDisplayedText("");
-        
-        if (!text || text.length === 0) return;
+        if (!text) {
+            setDisplayedText("");
+            return;
+        }
 
-        let i = 0;
-        let currentText = "";
-
-        const timer = setInterval(() => {
-            if (i < text.length) {
-                const char = text.charAt(i);
-                currentText += char;
-                setDisplayedText(currentText);
-                i++;
-            } else {
-                clearInterval(timer);
-            }
+        let index = 0;
+        const interval = setInterval(() => {
+            setDisplayedText((prev) => {
+                if (index >= text.length) {
+                    clearInterval(interval);
+                    return prev;
+                }
+                const next = prev + text.charAt(index);
+                index++;
+                return next;
+            });
         }, speed);
 
-        return () => {
-            clearInterval(timer);
-        };
+        return () => clearInterval(interval);
     }, [text, speed]);
 
     return <span>{displayedText}</span>;
