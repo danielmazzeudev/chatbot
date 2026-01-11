@@ -32,5 +32,5 @@ export function Typewriter({ text, speed = 15 }: TypewriterProps) {
         return () => clearInterval(interval);
     }, [text, speed]);
 
-    return <span>{displayedText}</span>;
+    return <p>{displayedText}</p>;
 }
