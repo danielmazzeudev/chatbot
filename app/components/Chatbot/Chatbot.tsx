@@ -72,8 +72,8 @@ Contato: comercial@neppo.com.br | (34) 3256-3200.`;
         if (!initializedRef.current) {
             const welcomeMsg =
                 language === "pt-br"
-                    ? "Olá! Eu sou a Nebbot, assistente virtual da Neppo. Como posso ajudar você hoje?"
-                    : "Hello! I am Nebbot, Neppo's virtual assistant. How can I help you today?";
+                    ? "Olá! Eu sou a Nepbot, assistente virtual da Neppo. Como posso ajudar você hoje?"
+                    : "Hello! I am Nepbot, Neppo's virtual assistant. How can I help you today?";
 
             setAnswers([
                 {
@@ -212,7 +212,7 @@ Contato: comercial@neppo.com.br | (34) 3256-3200.`;
                     {answers.map((item, index) => (
                         <div key={item.id} className="answer">
                             <h2>
-                                <BotMessageSquare size={16} /> Nebbot
+                                <BotMessageSquare size={16} /> Nepbot
                             </h2>
                             <p>
                                 {index === answers.length - 1 && index !== 0 ? (
@@ -234,7 +234,7 @@ Contato: comercial@neppo.com.br | (34) 3256-3200.`;
                                     src="/logo.png"
                                     alt="Logo Neppo"
                                 />{" "}
-                                Nebbot
+                                Nepbot
                             </h2>
                             <p>{language === "pt-br" ? "Pensando..." : "Thinking..."}</p>
                         </div>
