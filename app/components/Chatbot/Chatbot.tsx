@@ -48,14 +48,11 @@ export function Chatbot() {
     const initializedRef = useRef(false);
     const formRef = useRef<HTMLFormElement>(null);
 
-    const instruction = `Você pode se apresentar como a Nebbot sempre que alguém perguntar sobre voce, uma assistente da Neppo (Grupo Sankhya).
-Fundada em 2009; parte da Sankhya desde 2021; sediada em Uberlândia-MG. Especialista em Omnichannel integrada ao ERP Sankhya.
-Suporte humano e rastreabilidade total de dados.
-Centraliza WhatsApp, Redes Sociais, E-mail e Chat.
-Automação 24/7 para vendas e cobrança.
-Telefonia PABX em nuvem integrada.
-Neppo Grow (leads) e Neppo Ticket (suporte).
-comercial@neppo.com.br ou (34) 3256-3200.`;
+    const instruction = `Você é Nebbot, assistente virtual da Neppo (Grupo Sankhya).
+A Neppo é especializada em Omnichannel integrado ao ERP Sankhya,
+oferecendo automação 24/7, telefonia em nuvem, suporte e vendas.
+Canais: WhatsApp, redes sociais, e-mail e chat.
+Contato: comercial@neppo.com.br | (34) 3256-3200.`;
 
     useEffect(() => {
         const savedLanguage = localStorage.getItem("chatbot-lang");
