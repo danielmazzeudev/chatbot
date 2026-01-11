@@ -1,10 +1,35 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
-import { BotMessageSquare, BrushCleaning, X, Loader2 } from "lucide-react";
-import { Typewriter } from "@/app/utils/Typewriter";
+import { useState, useEffect, useRef, memo } from "react";
+import { BotMessageSquare, BrushCleaning, X } from "lucide-react";
+
 import "./Chatbot.css";
+
+const Typewriter = memo(({ text, speed = 15 }: { text: string; speed?: number }) => {
+    const [displayedText, setDisplayedText] = useState("");
+
+    useEffect(() => {
+        setDisplayedText("");
+        if (!text) return;
+
+        let index = 0;
+        const interval = setInterval(() => {
+            if (index < text.length) {
+                setDisplayedText(text.slice(0, index + 1));
+                index++;
+            } else {
+                clearInterval(interval);
+            }
+        }, speed);
+
+        return () => clearInterval(interval);
+    }, [text, speed]);
+
+    return <>{displayedText}</>;
+});
+
+Typewriter.displayName = "Typewriter";
 
 type Answer = {
     id: string;
@@ -18,33 +43,31 @@ export function Chatbot() {
     const [language, setLanguage] = useState("pt-br");
     const [question, setQuestion] = useState("");
     const [answers, setAnswers] = useState<Answer[]>([]);
+    const [cooldown, setCooldown] = useState(0);
     const scrollRef = useRef<HTMLDivElement>(null);
     const initializedRef = useRef(false);
     const formRef = useRef<HTMLFormElement>(null);
 
     const instruction = `Você pode se apresentar como a Nebbot sempre que alguém perguntar sobre voce, uma assistente da Neppo (Grupo Sankhya).
-CONTEXTO:
-- Neppo: Especialista em Omnichannel integrada ao ERP Sankhya.
-- História: Fundada em 2009; parte da Sankhya desde 2021; sediada em Uberlândia-MG.
-- Diferencial: Suporte humano e rastreabilidade total de dados.
-
-SOLUÇÕES:
-- Omnichannel: Centraliza WhatsApp, Redes Sociais, E-mail e Chat.
-- Chatbots: Automação 24/7 para vendas e cobrança.
-- Neppo Voz: Telefonia PABX em nuvem integrada.
-- Gestão: Neppo Grow (leads) e Neppo Ticket (suporte).
-
-DIRETRIZES:
-- NUNCA utilize negrito ** ou asteriscos * nas respostas.
-- Responda exclusivamente no idioma: ${language}.
-- Tom: Profissional, amigável e tecnológico.
-- Comercial/Preços: Direcione para comercial@neppo.com.br ou (34) 3256-3200.
-- Carreiras: Candidatos (Neppers) devem checar as vagas no site oficial.`;
+Fundada em 2009; parte da Sankhya desde 2021; sediada em Uberlândia-MG. Especialista em Omnichannel integrada ao ERP Sankhya.
+Suporte humano e rastreabilidade total de dados.
+Centraliza WhatsApp, Redes Sociais, E-mail e Chat.
+Automação 24/7 para vendas e cobrança.
+Telefonia PABX em nuvem integrada.
+Neppo Grow (leads) e Neppo Ticket (suporte).
+comercial@neppo.com.br ou (34) 3256-3200.`;
 
     useEffect(() => {
         const savedLanguage = localStorage.getItem("chatbot-lang");
         if (savedLanguage) setLanguage(savedLanguage);
     }, []);
+
+    useEffect(() => {
+        if (cooldown > 0) {
+            const timer = setTimeout(() => setCooldown(cooldown - 1), 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [cooldown]);
 
     useEffect(() => {
         localStorage.setItem("chatbot-lang", language);
@@ -57,7 +80,7 @@ DIRETRIZES:
 
             setAnswers([
                 {
-                    id: crypto.randomUUID(),
+                    id: "welcome-msg",
                     q: "",
                     a: welcomeMsg,
                 },
@@ -73,25 +96,34 @@ DIRETRIZES:
         }
     }, [answers, loading]);
 
-    const handleSubmit = async () => {
-        if (!question.trim() || loading) return;
+    const handleSubmit = async (e?: React.FormEvent) => {
+        e?.preventDefault();
+
+        if (!question.trim() || loading || cooldown > 0) return;
 
         const currentQuestion = question.trim();
+        setQuestion("");
         setLoading(true);
+
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 15000);
 
         try {
             const response = await fetch("https://gptagent.danielmazzeu.com.br/", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
+                signal: controller.signal,
                 body: JSON.stringify({
                     instruction,
                     question: currentQuestion,
                 }),
             });
 
+
             if (!response.ok) throw new Error("API_ERROR");
 
             const data = await response.json();
+
             const finalAnswer =
                 data.response ||
                 (language === "pt-br"
@@ -107,10 +139,15 @@ DIRETRIZES:
                 },
             ]);
 
-            setQuestion("");
-        } catch {
-            const errorMsg =
-                language === "pt-br"
+            setCooldown(10);
+        } catch (error: any) {
+            const isAbort = error?.name === "AbortError";
+
+            const errorMsg = isAbort
+                ? language === "pt-br"
+                    ? "A resposta demorou muito e foi cancelada. Tente novamente."
+                    : "The response took too long and was canceled. Please try again."
+                : language === "pt-br"
                     ? "Tive um problema técnico. Pode tentar novamente em instantes?"
                     : "I had a technical problem. Can you try again in a moment?";
 
@@ -123,6 +160,7 @@ DIRETRIZES:
                 },
             ]);
         } finally {
+            clearTimeout(timeoutId);
             setLoading(false);
         }
     };
@@ -145,7 +183,6 @@ DIRETRIZES:
                         quality={100}
                         src="/logo.png"
                         alt="Logo Neppo"
-                        priority
                     />
                     <div>
                         <button
@@ -166,10 +203,10 @@ DIRETRIZES:
                             type="button"
                             onClick={() => setAnswers((prev) => prev.slice(0, 1))}
                         >
-                            <BrushCleaning />
+                            <BrushCleaning size={18} />
                         </button>
                         <button type="button" onClick={() => setClose(true)}>
-                            <X />
+                            <X size={18} />
                         </button>
                     </div>
                 </div>
@@ -178,11 +215,11 @@ DIRETRIZES:
                     {answers.map((item, index) => (
                         <div key={item.id} className="answer">
                             <h2>
-                                <BotMessageSquare /> Nebbot
+                                <BotMessageSquare size={16} /> Nebbot
                             </h2>
                             <p>
                                 {index === answers.length - 1 && index !== 0 ? (
-                                    <Typewriter text={item.a} />
+                                    <Typewriter key={item.id} text={item.a} />
                                 ) : (
                                     item.a
                                 )}
@@ -199,7 +236,6 @@ DIRETRIZES:
                                     quality={100}
                                     src="/logo.png"
                                     alt="Logo Neppo"
-                                    priority
                                 />{" "}
                                 Nebbot
                             </h2>
@@ -211,10 +247,7 @@ DIRETRIZES:
                 <form
                     ref={formRef}
                     className="question"
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                        handleSubmit();
-                    }}
+                    onSubmit={handleSubmit}
                 >
                     <textarea
                         placeholder={
@@ -228,21 +261,35 @@ DIRETRIZES:
                         onKeyDown={(e) => {
                             if (e.key === "Enter" && !e.shiftKey) {
                                 e.preventDefault();
-                                formRef.current?.requestSubmit();
+                                handleSubmit();
                             }
                         }}
                     />
                     <div>
-                        <button type="submit" disabled={loading || !question.trim()}>
+                        <button
+                            type="submit"
+                            disabled={loading || !question.trim() || cooldown > 0}
+                            title={
+                                cooldown > 0
+                                    ? language === "pt-br"
+                                        ? "Aguarde o tempo de espera"
+                                        : "Wait for cooldown"
+                                    : ""
+                            }
+                        >
                             {loading ? (
-                                <Loader2 className="animate-spin" size={20} />
-                            ) : language === "pt-br" ? (
-                                "Enviar"
+                                language === "pt-br" ? "Enviando..." : "Sending..."
+                            ) : cooldown > 0 ? (
+                                language === "pt-br"
+                                    ? `Aguarde ${cooldown}s`
+                                    : `Wait ${cooldown}s`
                             ) : (
-                                "Send"
+                                language === "pt-br" ? "Enviar" : "Send"
                             )}
                         </button>
-                        <span>{question.length} / 1000</span>
+                        <span className={question.length >= 1000 ? "limit-reached" : ""}>
+                            {question.length} / 1000
+                        </span>
                     </div>
                 </form>
             </div>
