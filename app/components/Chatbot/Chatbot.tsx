@@ -35,7 +35,6 @@ DIRETRIZES:
 - Comercial/Preços: Direcione para comercial@neppo.com.br ou (34) 3256-3200.
 - Carreiras: Candidatos (Neppers) devem checar as vagas no site oficial.`;
 
-    // Carregar idioma salvo
     useEffect(() => {
         const savedLanguage = localStorage.getItem("chatbot-lang");
         if (savedLanguage) {
@@ -43,7 +42,6 @@ DIRETRIZES:
         }
     }, []);
 
-    // Atualizar mensagem de boas-vindas sem resetar o histórico inteiro se já houver conversa
     useEffect(() => {
         localStorage.setItem("chatbot-lang", language);
     
@@ -56,7 +54,7 @@ DIRETRIZES:
         }
     }, [language, answers.length]);
 
-    // Scroll automático sempre que o histórico de mensagens mudar ou estiver carregando
+    // Correção do Scroll: Ativa sempre que a lista de respostas mudar
     useEffect(() => {
         if (scrollRef.current) {
             scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -82,16 +80,14 @@ DIRETRIZES:
                 }),
             });
             
-            if (!response.ok) throw new Error("Erro na requisição");
-
             const data = await response.json();
             
-            // CORREÇÃO: Fallback caso data.response venha vazio ou estrutura seja diferente
-            const apiResponseMessage = data.response || data.message || (language === "pt-br" ? "Não obtive resposta." : "No response received.");
-
-            setAnswers((prev) => [...prev, { q: currentQuestion, a: apiResponseMessage }]);
+            // Correção: Garante que se data.response for vazio, ele use um fallback
+            const finalAnswer = data.response || (language === "pt-br" ? "Não obtive resposta." : "No response.");
+            
+            setAnswers((prev) => [...prev, { q: currentQuestion, a: finalAnswer }]);
         } catch (error) {
-            console.error("Erro Chatbot:", error);
+            console.error(error);
             const errorMsg = language === "pt-br" 
                 ? "Desculpe, tive um problema técnico. Pode tentar novamente?" 
                 : "Sorry, I had a technical problem. Can you try again?";
@@ -112,45 +108,31 @@ DIRETRIZES:
                     <div>
                         <button type="button" className={language === "pt-br" ? "active" : ""} onClick={() => setLanguage("pt-br")}>PT</button>
                         <button type="button" className={language === "en" ? "active" : ""} onClick={() => setLanguage("en")}>EN</button>
-                        <button type="button" title="Limpar conversa" onClick={() => setAnswers(prev => prev.slice(0, 1))}><BrushCleaning /></button>
+                        <button type="button" onClick={() => setAnswers(prev => prev.slice(0, 1))}><BrushCleaning /></button>
                         <button type="button" onClick={() => setClose(true)}><X /></button>
                     </div>
                 </div>
-                
+                {/* Adicionado a ref para o scroll funcionar */}
                 <div className="answers" ref={scrollRef}>
                     {answers.map((item, index) => (
-                        <div key={index} className="answer-wrapper">
-                            {/* Pergunta do Usuário */}
-                            {item.q && (
-                                <div className="user-message">
-                                    <p>{item.q}</p>
-                                </div>
-                            )}
-                            
-                            {/* Resposta do Bot */}
-                            <div className="answer">
-                                <h2><BotMessageSquare size={16} /> Nepbot</h2>
-                                <p>
-                                    {index === answers.length - 1 && index !== 0 ? (
-                                        <Typewriter text={item.a || ""} />
-                                    ) : (
-                                        item.a
-                                    )}
-                                </p>
-                            </div>
+                        <div key={index} className="answer">
+                            <h2><BotMessageSquare /> Nepbot</h2>
+                            <p>
+                                {index === answers.length - 1 && index !== 0 ? (
+                                    <Typewriter text={item.a || ""} />
+                                ) : (
+                                    item.a
+                                )}
+                            </p>
                         </div>
                     ))}
                     {loading && (
-                        <div className="answer loading">
-                            <h2><BotMessageSquare size={16} /> Nepbot</h2>
-                            <p className="thinking">
-                                <Loader2 className="animate-spin" size={14} />
-                                {language === "pt-br" ? "Digitando..." : "Typing..."}
-                            </p>
+                        <div className="answer">
+                            <h2><Image width={20} height={20} quality={100} src="/logo.png" alt="Logo Neppo" priority /> Nebbot</h2>
+                            <p>{language === "pt-br" ? "Pensando..." : "Thinking..."}</p>
                         </div>
                     )}
                 </div>
-
                 <form className="question" onSubmit={handleQuestion}>
                     <textarea 
                         placeholder={language === "pt-br" ? "Escreva algo aqui..." : "Type something here..."} 
@@ -165,12 +147,11 @@ DIRETRIZES:
                         }}
                     />
                     <div>
-                        <button type="submit" disabled={loading || !question.trim()}>
-                            {loading ? (
-                                <Loader2 className="animate-spin" size={18} />
-                            ) : (
-                                language === "pt-br" ? "Enviar" : "Send"
-                            )}
+                        <button type="submit" disabled={loading || question.trim().length === 0}>
+                            {loading 
+                                ? (language === "pt-br" ? "Pensando..." : "Thinking...") 
+                                : (language === "pt-br" ? "Enviar" : "Send")
+                            }
                         </button>
                         <span>{question.length} / 1000</span>
                     </div>
