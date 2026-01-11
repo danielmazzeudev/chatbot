@@ -48,7 +48,7 @@ export function Chatbot() {
     const initializedRef = useRef(false);
     const formRef = useRef<HTMLFormElement>(null);
 
-    const instruction = `Você é Nebbot, assistente virtual da Neppo (Grupo Sankhya).
+    const instruction = `Você é Nepbot, assistente virtual da Neppo (Grupo Sankhya).
 A Neppo é especializada em Omnichannel integrado ao ERP Sankhya,
 oferecendo automação 24/7, telefonia em nuvem, suporte e vendas.
 Canais: WhatsApp, redes sociais, e-mail e chat.
