@@ -49,12 +49,11 @@ DIRETRIZES:
             ? "Olá! Eu sou a Nepbot, assistente virtual da Neppo. Como posso ajudar você hoje?" 
             : "Hello! I am Nepbot, Neppo's virtual assistant. How can I help you today?";
         
-        if (answers.length === 0) {
+        if (answers.length <= 1) {
             setAnswers([{ q: "", a: welcomeMsg }]);
         }
-    }, [language, answers.length]);
+    }, [language]);
 
-    // Correção do Scroll: Ativa sempre que a lista de respostas mudar
     useEffect(() => {
         if (scrollRef.current) {
             scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -66,7 +65,7 @@ DIRETRIZES:
 
         if (!question.trim() || loading) return;
 
-        const currentQuestion = question;
+        const currentQuestion = question.trim();
         setQuestion(""); 
         setLoading(true);
 
@@ -80,17 +79,17 @@ DIRETRIZES:
                 }),
             });
             
+            if (!response.ok) throw new Error("API_ERROR");
+
             const data = await response.json();
+            const finalAnswer = data.response || (language === "pt-br" ? "Desculpe, não consegui processar sua resposta." : "Sorry, I couldn't process your response.");
             
-            // Correção: Garante que se data.response for vazio, ele use um fallback
-            const finalAnswer = data.response || (language === "pt-br" ? "Não obtive resposta." : "No response.");
-            
-            setAnswers((prev) => [...prev, { q: currentQuestion, a: finalAnswer }]);
+            setAnswers((prev) => [...prev, { q: currentQuestion, a: String(finalAnswer) }]);
         } catch (error) {
-            console.error(error);
+            console.error("Chatbot Error:", error);
             const errorMsg = language === "pt-br" 
-                ? "Desculpe, tive um problema técnico. Pode tentar novamente?" 
-                : "Sorry, I had a technical problem. Can you try again?";
+                ? "Tive um problema técnico. Pode tentar novamente em instantes?" 
+                : "I had a technical problem. Can you try again in a moment?";
             setAnswers((prev) => [...prev, { q: currentQuestion, a: errorMsg }]);
         } finally {
             setLoading(false);
@@ -112,10 +111,10 @@ DIRETRIZES:
                         <button type="button" onClick={() => setClose(true)}><X /></button>
                     </div>
                 </div>
-                {/* Adicionado a ref para o scroll funcionar */}
+
                 <div className="answers" ref={scrollRef}>
                     {answers.map((item, index) => (
-                        <div key={index} className="answer">
+                        <div key={`${index}-${item.q.substring(0,5)}`} className="answer">
                             <h2><BotMessageSquare /> Nepbot</h2>
                             <p>
                                 {index === answers.length - 1 && index !== 0 ? (
@@ -133,6 +132,7 @@ DIRETRIZES:
                         </div>
                     )}
                 </div>
+
                 <form className="question" onSubmit={handleQuestion}>
                     <textarea 
                         placeholder={language === "pt-br" ? "Escreva algo aqui..." : "Type something here..."} 
@@ -142,14 +142,14 @@ DIRETRIZES:
                         onKeyDown={(e) => {
                             if (e.key === "Enter" && !e.shiftKey) {
                                 e.preventDefault();
-                                handleQuestion(e);
+                                if (!loading && question.trim()) handleQuestion(e);
                             }
                         }}
                     />
                     <div>
-                        <button type="submit" disabled={loading || question.trim().length === 0}>
+                        <button type="submit" disabled={loading || !question.trim()}>
                             {loading 
-                                ? (language === "pt-br" ? "Pensando..." : "Thinking...") 
+                                ? <Loader2 className="animate-spin" size={20} />
                                 : (language === "pt-br" ? "Enviar" : "Send")
                             }
                         </button>

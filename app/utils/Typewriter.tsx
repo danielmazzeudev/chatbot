@@ -7,23 +7,27 @@ export function Typewriter({ text = "", speed = 15 }: { text: string; speed?: nu
 
     useEffect(() => {
         setDisplayedText("");
-
-        if (!text) {
-            return;
-        }
+        
+        if (!text || text.length === 0) return;
 
         let i = 0;
+        let currentText = "";
+
         const timer = setInterval(() => {
             if (i < text.length) {
-                setDisplayedText((prev) => prev + text.charAt(i));
+                const char = text.charAt(i);
+                currentText += char;
+                setDisplayedText(currentText);
                 i++;
             } else {
                 clearInterval(timer);
             }
         }, speed);
 
-        return () => clearInterval(timer);
+        return () => {
+            clearInterval(timer);
+        };
     }, [text, speed]);
 
-    return <>{displayedText}</>;
+    return <span>{displayedText}</span>;
 }
