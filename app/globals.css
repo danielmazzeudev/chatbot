@@ -24,7 +24,7 @@
     --textarea-border: 0;
     --textarea-bg: #0a0a0a;
 
-    --chatbot-bg: rgba(0, 0, 0, 0.7);
+    --chatbot-bg: rgba(0, 255, 204, 0.05);
     --answers-bg: #0a0a0a;
     --answers-border: 0;
 }
