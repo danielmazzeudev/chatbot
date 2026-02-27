@@ -76,7 +76,11 @@ img {
     height: auto;
     padding: 5px;
     border-radius: var(--radius);
-    background-color: var(--theme-b);
+    border: 1px solid rgba(0, 255, 204, 0.4);
+    background-color: rgba(0, 255, 204, 0.05);
+    box-shadow: 
+        0 0 5px rgba(0, 255, 204, 0.2),
+        inset 0 0 5px rgba(0, 255, 204, 0.2);
 }
 
 div.chatbot >
@@ -100,6 +104,9 @@ button {
     border-radius: var(--radius);
     border: var(--button-border);
     background-color: var(--button-bg);
+    box-shadow: 
+        0 0 5px rgba(0, 255, 204, 0.2),
+        inset 0 0 5px rgba(0, 255, 204, 0.2);
 }
 
 div.chatbot >
@@ -246,6 +253,9 @@ button:disabled {
     border: var(--button-border);
     color: var(--button-color);
     background-color: var(--button-bg);
+    box-shadow: 
+        0 0 5px rgba(0, 255, 204, 0.2),
+        inset 0 0 5px rgba(0, 255, 204, 0.2);
 }
 
 div.chatbot >
@@ -262,8 +272,4 @@ span {
         right: 15px;
         max-width: calc(100% - 30px);
     }
-}
-
-@media screen and (max-width: 768px) {
-    
 }
