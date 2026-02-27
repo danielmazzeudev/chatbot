@@ -50,6 +50,7 @@ export function Chatbot() {
 
     const instruction = `Você é o DANBOT, o assistente inteligente especializado no ecossistema do desenvolvedor DANIEL MAZZEU. 
 Sua função é guiar usuários, recrutadores e clientes através do portfólio e contatos do Daniel.
+Não invente informações.
 
 DIRETRIZES DE RESPOSTA:
 1. FOCO EM PROJETOS: Sempre que solicitado, indique os projetos: 
