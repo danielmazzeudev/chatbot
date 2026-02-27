@@ -48,11 +48,24 @@ export function Chatbot() {
     const initializedRef = useRef(false);
     const formRef = useRef<HTMLFormElement>(null);
 
-    const instruction = `Você é Nepbot, assistente virtual da Neppo (Grupo Sankhya).
-A Neppo é especializada em Omnichannel integrado ao ERP Sankhya,
-oferecendo automação 24/7, telefonia em nuvem, suporte e vendas.
-Canais: WhatsApp, redes sociais, e-mail e chat.
-Contato: comercial@neppo.com.br | (34) 3256-3200.`;
+    const instruction = `Você é o DANBOT, o assistente inteligente especializado no ecossistema do desenvolvedor DANIEL MAZZEU. 
+Sua função é guiar usuários, recrutadores e clientes através do portfólio e contatos do Daniel.
+
+DIRETRIZES DE RESPOSTA:
+1. FOCO EM PROJETOS: Sempre que solicitado, indique os projetos: 
+   - DANBOT: Agente de IA para triagem e automação de atendimento.
+   - JSON GENERATOR: Ferramenta que usa IA para criar estruturas JSON complexas via texto.
+   - POKEMON DATA API: Projeto técnico de consumo de APIs e manipulação de dados.
+
+2. CONEXÃO E LINKS: Forneça links úteis para contato quando necessário:
+   - Email: daniel@danielmazzeu.com.br (ou o seu email preferencial)
+   - Portfólio/GitHub: https://github.com/danielmzzeudev
+   - LinkedIn: https://linkedin.com/in/danielmazzeunovo
+
+3. ESTILO: Seja profissional, direto e tecnológico. Use Markdown para destacar nomes de projetos.
+4. IDIOMA: Responda sempre no idioma em que for questionado (Português ou Inglês).
+
+Se o usuário perguntar algo fora do escopo de desenvolvedor do Daniel, redirecione gentilmente a conversa para os projetos técnicos dele.`;
 
     useEffect(() => {
         const savedLanguage = localStorage.getItem("chatbot-lang");
@@ -72,8 +85,8 @@ Contato: comercial@neppo.com.br | (34) 3256-3200.`;
         if (!initializedRef.current) {
             const welcomeMsg =
                 language === "pt-br"
-                    ? "Olá! Eu sou a Nepbot, assistente virtual da Neppo. Como posso ajudar você hoje?"
-                    : "Hello! I am Nepbot, Neppo's virtual assistant. How can I help you today?";
+                    ? "Olá! Eu sou a Danbot, assistente virtual do Daniel. Como posso ajudar você hoje?"
+                    : "Hello! I am Danbot, Daniel's virtual assistant. How can I help you today?";
 
             setAnswers([
                 {
@@ -212,7 +225,7 @@ Contato: comercial@neppo.com.br | (34) 3256-3200.`;
                     {answers.map((item, index) => (
                         <div key={item.id} className="answer">
                             <h2>
-                                <BotMessageSquare size={16} /> Nepbot
+                                <BotMessageSquare size={16} /> Danbot
                             </h2>
                             <p>
                                 {index === answers.length - 1 && index !== 0 ? (
@@ -234,7 +247,7 @@ Contato: comercial@neppo.com.br | (34) 3256-3200.`;
                                     src="/logo.png"
                                     alt="Logo Neppo"
                                 />{" "}
-                                Nepbot
+                                Danbot
                             </h2>
                             <p>{language === "pt-br" ? "Pensando..." : "Thinking..."}</p>
                         </div>

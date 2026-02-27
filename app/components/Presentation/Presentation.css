@@ -16,7 +16,11 @@ img {
     margin-bottom: 15px;
     padding: 15px;
     border-radius: 25px;
-    background-color: var(--theme-b);
+    border: 1px solid rgba(0, 255, 204, 0.4);
+    background-color: rgba(0, 255, 204, 0.05);
+    box-shadow: 
+        0 0 5px rgba(0, 255, 204, 0.2),
+        inset 0 0 5px rgba(0, 255, 204, 0.2);
 }
 
 main > 
@@ -25,6 +29,7 @@ h1 {
     align-items: center;
     gap: 3px;
     flex-wrap: nowrap;
+    color: #fff;
 }
 
 main > 
@@ -38,6 +43,13 @@ svg {
 main >
 p {
     text-align: center;
+    color: #999;
+}
+
+main >
+p > 
+strong {
+    color: #00ffcc;
 }
 
 main >

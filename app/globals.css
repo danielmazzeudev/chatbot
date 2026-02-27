@@ -1,30 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
 
 :root {
-    --theme-a: #65cc65;
-    --theme-b: #252c3b;
+    --theme-a: #00ffcc;
+    --theme-b: #000;
 
     --radius: 8px;
     --padgap: 12px;
-    --border: 1px solid #ddd;
-    --shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    --border: 1px solid rgba(0, 255, 204, 0.4);
+    --shadow: 
+        0 0 5px rgba(0, 255, 204, 0.2),
+        inset 0 0 5px rgba(0, 255, 204, 0.2);
 
-    --button-color: #999;
-    --button-color-hover: #000;
-    --button-color-active: #fff;
-    --button-bg: #eee;
-    --button-bg-hover: #ddd;
-    --button-bg-active: var(--theme-b);
-    --button-border: 1px solid #ddd;
-    --button-border-hover: 1px solid #ccc;
-    --button-border-active: 1px solid var(--theme-b);
+    --button-color: #00ffcc;
+    --button-color-hover: #00ffcc;
+    --button-color-active: #00ffcc;
+    --button-bg: rgba(0, 255, 204, 0.05);
+    --button-bg-hover: rgba(0, 255, 204, 0.05);
+    --button-bg-active: rgba(0, 255, 204, 0.05);
+    --button-border: 1px solid rgba(0, 255, 204, 0.4);
+    --button-border-hover: 1px solid rgba(0, 255, 204, 0.4);
+    --button-border-active: 1px solid rgba(0, 255, 204, 0.4);
 
-    --textarea-border: 1px solid #ddd;
-    --textarea-bg: #f9f9f9;
+    --textarea-border: 0;
+    --textarea-bg: rgba(0, 0, 0, 0.5);
 
-    --chatbot-bg: #fff;
-    --answers-bg: #f9f9f9;
-    --answers-border: 1px solid #eee;
+    --chatbot-bg: rgba(0, 255, 204, 0.05);
+    --answers-bg: rgba(0, 0, 0, 0.5);
+    --answers-border: 0;
 }
 
 *,
@@ -48,7 +50,7 @@ body { overflow-x: hidden !important; }
 
 html { scroll-behavior: smooth; }
 
-body { background-color: #eee; }
+body { background-color: #0a0a0a; }
 
 button { cursor: pointer; }
 

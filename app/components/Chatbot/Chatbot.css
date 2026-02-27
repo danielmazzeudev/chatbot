@@ -95,6 +95,7 @@ button {
     align-items: center;
     justify-content: center;
     height: 40px;
+    color: var(--theme-a);
     padding: var(--padgap);
     border-radius: var(--radius);
     border: var(--button-border);
@@ -148,6 +149,7 @@ h2 {
     display: flex;
     align-items: center;
     gap: var(--padgap);
+    color: #fff;
 }
 
 div.chatbot >
@@ -182,6 +184,7 @@ div.answers >
 div.answer >
 p {
     margin-top: 8px;
+    color: var(--theme-a);
 }
 
 div.chatbot >
@@ -205,6 +208,7 @@ textarea {
     border: var(--textarea-border);
     font-size: 14px;
     line-height: 1.5;
+    color: var(--theme-a);
     background-color: var(--textarea-bg);
 }
 
@@ -249,7 +253,7 @@ form.question >
 div > 
 span {
     font-size: 12px;
-    color: #666;
+    color: #999;
 }
 
 @media all and (max-width: 768px) {

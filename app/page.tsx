@@ -1,11 +1,11 @@
 import { Chatbot } from "@/app/components/Chatbot/Chatbot";
 import { Presentation } from "@/app/components/Presentation/Presentation";
-import BackgroundBubbles from "./utils/Background";
+import Background from "./components/Background/Background";
 
 export default function Home() {
     return (
         <>
-            <BackgroundBubbles />
+            <Background />
             <Presentation />
             <Chatbot />
         </>

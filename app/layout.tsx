@@ -4,8 +4,8 @@ import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"; 
 
 export const metadata: Metadata = {
-    title: "Nepbot",
-    description: "Um agente especializado da empresa Neppot.",
+    title: "Danbot",
+    description: "Um agente especializado do Daniel Mazzeu.",
 };
 
 export default function RootLayout({
