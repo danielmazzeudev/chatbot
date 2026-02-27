@@ -22,10 +22,10 @@
     --button-border-active: 1px solid rgba(0, 255, 204, 0.4);
 
     --textarea-border: 0;
-    --textarea-bg: rgba(0, 0, 0, 0.5);
+    --textarea-bg: #0a0a0a;
 
-    --chatbot-bg: #0a0a0a;
-    --answers-bg: rgba(0, 0, 0, 0.5);
+    --chatbot-bg: rgba(0, 0, 0, 0.7);
+    --answers-bg: #0a0a0a;
     --answers-border: 0;
 }
 
