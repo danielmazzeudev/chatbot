@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight, LoaderCircle, RotateCcw, Sparkles } from "lucide-react";
+import { ArrowUpRight, LoaderCircle, RotateCcw } from "lucide-react";
 
 import "./Chatbot.css";
 
@@ -24,6 +24,8 @@ export function Chatbot() {
     },
   ]);
   const answersRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const endRef = useRef<HTMLDivElement>(null);
   const sessionIdRef = useRef("");
 
   useEffect(() => {
@@ -44,7 +46,13 @@ export function Chatbot() {
 
   useEffect(() => {
     if (!answersRef.current) return;
+
     answersRef.current.scrollTop = answersRef.current.scrollHeight;
+    endRef.current?.scrollIntoView({ block: "end", behavior: loading ? "auto" : "smooth" });
+
+    window.requestAnimationFrame(() => {
+      formRef.current?.scrollIntoView({ block: "end", behavior: loading ? "auto" : "smooth" });
+    });
   }, [messages, loading]);
 
   const resetConversation = () => {
@@ -141,7 +149,7 @@ export function Chatbot() {
             <div className="chat-title">
               <div className="chat-avatar">
                 <Image
-                  src="/logo_inverse.png"
+                  src="/lumni-user-photo.png"
                   alt="Lumni"
                   fill
                   sizes="44px"
@@ -163,8 +171,8 @@ export function Chatbot() {
           <div className="chat-hero">
             <div className="chat-hero-copy">
               <div className="luna-badge">
-                <Sparkles size={14} />
-                Atendimento online
+                <span className="luna-badge-dot" aria-hidden="true" />
+                ATENDIMENTO ONLINE
               </div>
               <h1>Fale com a Luna e vá direto ao que importa.</h1>
               <p>
@@ -201,6 +209,7 @@ export function Chatbot() {
                 </p>
               </article>
             ) : null}
+            <div ref={endRef} aria-hidden="true" className="chat-end-anchor" />
           </div>
 
           <div className="chat-suggestions">
@@ -221,13 +230,13 @@ export function Chatbot() {
             </button>
           </div>
 
-          <form className="chat-form" onSubmit={handleSubmit}>
+          <form className="chat-form" onSubmit={handleSubmit} ref={formRef}>
             <label htmlFor="luna-message" className="sr-only">
               Digite sua mensagem
             </label>
             <textarea
               id="luna-message"
-              maxLength={800}
+              maxLength={1000}
               placeholder="Escreva sua mensagem aqui..."
               value={question}
               onChange={(event) => setQuestion(event.target.value)}
@@ -240,7 +249,7 @@ export function Chatbot() {
             />
 
             <div className="chat-form-footer">
-              <span>{question.length} / 800</span>
+              <span>{question.length} / 1000</span>
               <button type="submit" className="send-button" disabled={loading || !question.trim() || cooldown > 0}>
                 {cooldown > 0 ? `Aguarde ${cooldown}s` : "Enviar"}
                 <ArrowUpRight size={16} />

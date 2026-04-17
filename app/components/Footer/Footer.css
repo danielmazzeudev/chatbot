@@ -11,7 +11,7 @@ footer {
 
 footer > small {
   text-align: center;
-  font-size: 0.92rem;
+  font-size: 0.84rem;
   line-height: 1.7;
   color: var(--text-soft);
 }

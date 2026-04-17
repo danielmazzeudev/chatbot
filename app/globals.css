@@ -12,6 +12,11 @@
   --shadow-md: 0 16px 36px rgba(0, 0, 0, 0.3);
   --accent: #f4f4ef;
   --accent-contrast: #0b0b0b;
+  --font-size-hero: clamp(1.95rem, 3.2vw, 2.9rem);
+  --font-size-section: clamp(1.45rem, 2.2vw, 2rem);
+  --font-size-body: 0.98rem;
+  --font-size-body-sm: 0.9rem;
+  --font-size-label: 0.78rem;
   --radius-xl: 32px;
   --radius-lg: 24px;
   --radius-md: 18px;
@@ -28,6 +33,7 @@
 
 html {
   scroll-behavior: smooth;
+  font-size: clamp(15px, 0.3vw + 0.9rem, 18px);
 }
 
 body {
@@ -36,6 +42,7 @@ body {
   background: #000000;
   color: var(--text-primary);
   font-family: var(--font-body), sans-serif;
+  line-height: 1.6;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

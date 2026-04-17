@@ -1,5 +1,4 @@
-import fs from "node:fs/promises";
-import path from "node:path";
+import { searchKnowledge } from "@/lib/server/knowledgeBase";
 
 type Role = "user" | "assistant";
 type LeadIntent = "AGENDAR_CONSULTOR" | "ENVIAR_LEAD" | null;
@@ -81,7 +80,6 @@ CLIENTE: {question}`;
 
 const leads = new Map<string, Lead>();
 const conversationHistory = new Map<string, ChatHistoryItem[]>();
-let knowledgeCache = "";
 
 function getOrCreateLead(chatId: string): Lead {
   if (!leads.has(chatId)) {
@@ -195,26 +193,6 @@ function formatHistory(chatId: string) {
   return history
     .map((item) => `${item.role === "user" ? "Cliente" : "Luna"}: ${item.content}`)
     .join("\n");
-}
-
-async function loadKnowledge() {
-  if (knowledgeCache) {
-    return knowledgeCache;
-  }
-
-  const knowledgeDir = path.join(process.cwd(), "knowledge");
-  const entries = await fs.readdir(knowledgeDir, { withFileTypes: true });
-  const files = entries.filter((entry) => entry.isFile() && entry.name.endsWith(".txt"));
-  const contents = await Promise.all(
-    files.map(async (file) => {
-      const fullPath = path.join(knowledgeDir, file.name);
-      const content = await fs.readFile(fullPath, "utf8");
-      return `ARQUIVO: ${file.name}\n${content.trim()}`;
-    }),
-  );
-
-  knowledgeCache = contents.join("\n\n");
-  return knowledgeCache;
 }
 
 function sanitize(str: string) {
@@ -342,9 +320,9 @@ async function sendLeadEmails(lead: Lead) {
     {
       to: LEAD_EMAIL_TO ?? "contato@lumni.dev.br",
       replyTo: lead.email ?? undefined,
-      subject: `[Lumni] ${tipo} - ${lead.nome ?? "Lead WhatsApp"}`,
+      subject: `[Lumni] ${tipo} - ${lead.nome ?? "Lead Webchatbot"}`,
       html: `
-        <h2>Novo lead via WhatsApp (Luna)</h2>
+        <h2>Novo lead via Webchatbot (Luna)</h2>
         <p><strong>Tipo:</strong> ${sanitize(tipo)}</p>
         <p><strong>Data:</strong> ${new Date().toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" })}</p>
         <hr>
@@ -523,7 +501,7 @@ export async function getLunaResponse(chatId: string, message: string) {
   getOrCreateLead(chatId);
   addToHistory(chatId, "user", message);
 
-  const knowledge = await loadKnowledge();
+  const knowledge = await searchKnowledge(message);
   const prompt = SYSTEM_TEMPLATE
     .replace("{leadState}", formatLeadSummary(chatId))
     .replace("{context}", knowledge)
