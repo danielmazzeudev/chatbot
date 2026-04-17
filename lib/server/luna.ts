@@ -1,8 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
-import nodemailer from "nodemailer";
-
 type Role = "user" | "assistant";
 type LeadIntent = "AGENDAR_CONSULTOR" | "ENVIAR_LEAD" | null;
 
@@ -328,29 +326,17 @@ function detectIntent(text: string): LeadIntent {
 }
 
 async function sendLeadEmails(lead: Lead) {
-  const { SMTP_HOST, SMTP_PORT, SMTP_SECURE, SMTP_USER, SMTP_PASS, LEAD_EMAIL_TO, SMTP_FROM_NAME, SMTP_FROM } =
-    process.env;
+  const { EMAIL_API_URL, EMAIL_API_KEY, LEAD_EMAIL_TO } = process.env;
 
-  if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS) {
-    throw new Error("SMTP nao configurado.");
+  if (!EMAIL_API_URL || !EMAIL_API_KEY) {
+    throw new Error("EMAIL_API_URL ou EMAIL_API_KEY nao configurados.");
   }
-
-  const transporter = nodemailer.createTransport({
-    host: SMTP_HOST,
-    port: Number(SMTP_PORT),
-    secure: SMTP_SECURE === "true",
-    auth: {
-      user: SMTP_USER,
-      pass: SMTP_PASS,
-    },
-  });
 
   const tipo = lead.intencao === "AGENDAR_CONSULTOR" ? "Agendamento" : "Orcamento";
   const tipoTexto =
     lead.intencao === "AGENDAR_CONSULTOR"
       ? "agendamento com nosso consultor"
       : "solicitacao de orcamento";
-  const from = SMTP_FROM || `"${SMTP_FROM_NAME ?? "Lumni"}" <${SMTP_USER}>`;
 
   const emails: OutgoingEmail[] = [
     {
@@ -414,14 +400,18 @@ async function sendLeadEmails(lead: Lead) {
     });
   }
 
-  for (const email of emails) {
-    await transporter.sendMail({
-      from,
-      to: email.to,
-      replyTo: email.replyTo ?? undefined,
-      subject: email.subject,
-      html: email.html,
-    });
+  const response = await fetch(EMAIL_API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${EMAIL_API_KEY}`,
+    },
+    body: JSON.stringify({ emails }),
+  });
+
+  if (!response.ok) {
+    const detail = await response.text();
+    throw new Error(`API respondeu ${response.status}: ${detail}`);
   }
 }
 
