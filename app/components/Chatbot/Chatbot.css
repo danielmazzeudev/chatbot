@@ -63,8 +63,8 @@
 
 .chat-avatar {
   position: relative;
-  width: 44px;
-  height: 44px;
+  width: 58px;
+  height: 58px;
   border-radius: 16px;
   display: grid;
   place-items: center;
@@ -76,7 +76,7 @@
 }
 
 .chat-avatar-image {
-  padding: 11px;
+  padding: 9px;
   object-fit: contain;
   filter: brightness(0) invert(1);
 }
